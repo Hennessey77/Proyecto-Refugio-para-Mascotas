@@ -159,7 +159,7 @@ void setDireccion(string direccion)
 
 // ANIMAL ABSTRACTO 
 
-class Animal : public Mostrable, public Identificable
+class Animal : public Mostrable, public Identificable //herencia multiple
 {
 protected:
 
@@ -182,21 +182,21 @@ public:
         this->edadMeses=edadMeses;
     }
 
-    string getID() override
+    string getID() override //polimorfismo
     {
         return id;
     }
 
-    string getNombre()
+    string getNombre() //encapsulamiento
     {
         return nombre;
     }
 
-    virtual void mostrar() = 0;
+    virtual void mostrar() = 0; // Animal no tiene implementacion de mostrar
 
-    virtual ~Animal(){}
-    // ===== GETTERS =====
-string getRaza()
+    virtual ~Animal(){} // destructor virtual
+    // GETTERS 
+string getRaza() //Devuelve raza
 {
     return raza;
 }
@@ -216,8 +216,8 @@ int getEdadMeses()
     return edadMeses;
 }
 
-// ===== SETTERS =====
-void setNombre(string nombre)
+//  SETTERS 
+void setNombre(string nombre) // Modifican atributos
 {
     this->nombre = nombre;
 }
@@ -243,16 +243,16 @@ void setEdadMeses(int meses)
 }
 };
 
-// ================= PERRO =================
+// PERRO 
 
-class Perro : public Animal
+class Perro : public Animal //herencia simple, hereda de animal
 {
 public:
 
     Perro(string id,string nombre,string raza,float peso,int anios,int meses)
-    : Animal(id,nombre,raza,peso,anios,meses){}
+    : Animal(id,nombre,raza,peso,anios,meses){} //llama al constructor de animal
 
-    void mostrar() override
+    void mostrar() override //implementa al método que animal dejo pendiente
     {
         cout<<"[Perro] ID: "<<id
             <<" | Nombre: "<<nombre
@@ -263,16 +263,16 @@ public:
     }
 };
 
-// ================= GATO =================
+// GATO 
 
-class Gato : public Animal
+class Gato : public Animal // hereda de animal
 {
 public:
 
     Gato(string id,string nombre,string raza,float peso,int anios,int meses)
-    : Animal(id,nombre,raza,peso,anios,meses){}
+    : Animal(id,nombre,raza,peso,anios,meses){} // llama al constructor de animal
 
-    void mostrar() override
+    void mostrar() override // define como se muestra gato
     {
         cout<<"[Gato] ID: "<<id
             <<" | Nombre: "<<nombre
@@ -283,14 +283,14 @@ public:
     }
 };
 
-// ================= SISTEMA =================
+// SISTEMA REFUGIO 
 
-class SistemaRefugio
+class SistemaRefugio //clase que controla todo el sistema
 {
 private:
 
-    Repositorio<Persona> personas;
-    vector<shared_ptr<Animal>> animales;
+    Repositorio<Persona> personas; // guarda todas las personas
+    vector<shared_ptr<Animal>> animales; // guarda todos los animales
 
 public:
 
@@ -299,7 +299,7 @@ public:
         cargarAnimalesIniciales();
     }
 
-// ================= DATOS INICIALES =================
+// DATOS INICIALES para simular un sistema de refugio, decidimos poner algunos animales que ya son parte del refugio para poder utilizar esos datos para adopciones, modificacion o eliminaciones
 
     void cargarAnimalesIniciales()
     {
@@ -310,9 +310,9 @@ public:
         animales.push_back(make_shared<Perro>("5","Toby","Beagle",10,1,4));
     }
 
-// ================= PERSONAS CRUD =================
+//  PERSONAS CRUD 
 
-    void registrarPersona()
+    void registrarPersona() // C = Create
     {
         try
         {
@@ -342,7 +342,7 @@ public:
         }
     }
 
-    void listarPersonas()
+    void listarPersonas() // R = Read
     {
         if(personas.estaVacio())
         {
@@ -354,7 +354,7 @@ public:
             p.mostrar();
     }
 
-    void modificarPersona()
+    void modificarPersona() // U = Update
     {
         string id;
 
@@ -389,7 +389,7 @@ public:
         throw runtime_error("Persona no encontrada");
     }
 
-    void eliminarPersona()
+    void eliminarPersona() // D = Delete
     {
         string id;
 
@@ -412,9 +412,9 @@ public:
         throw runtime_error("Persona no encontrada");
     }
 
-// ================= ANIMALES CRUD =================
+// ANIMALES CRUD 
 
-    void registrarAnimal()
+    void registrarAnimal() // C = Create
     {
         try
         {
@@ -465,7 +465,7 @@ public:
         }
     }
 
-    void listarAnimales()
+    void listarAnimales() // R = Read
     {
         if(animales.empty())
         {
@@ -477,7 +477,7 @@ public:
             a->mostrar();
     }
 
-    void modificarAnimal()
+    void modificarAnimal() // U = Update
     {
         string id;
 
@@ -521,7 +521,7 @@ public:
         throw runtime_error("Animal no encontrado");
     }
 
-    void eliminarAnimal()
+    void eliminarAnimal() // D = Delete
     {
         string id;
 
@@ -542,13 +542,13 @@ public:
         throw runtime_error("Animal no encontrado");
     }
 
-// ================= ADOPCION =================
+//  ADOPCION 
 
-    void adoptarAnimal()
+    void adoptarAnimal() //Permite que una persona adopte un animal y lo elimina del sistema
     {
         try
         {
-            if(personas.estaVacio())
+            if(personas.estaVacio()) // No hay como adoptar si no hay personas registradas
                 throw runtime_error("Debe registrar personas primero");
 
             listarPersonas();
@@ -558,14 +558,14 @@ public:
             cout<<"ID persona: ";
             cin>>idPersona;
 
-            Persona *adoptante=nullptr;
+            Persona *adoptante=nullptr; //Puntero
 
-            for(auto &p:personas.obtener())
+            for(auto &p:personas.obtener()) // Busca persona por ID
                 if(p.getID()==idPersona)
                     adoptante=&p;
 
             if(!adoptante)
-                throw runtime_error("Persona no encontrada");
+                throw runtime_error("Persona no encontrada"); // Si no hay persona, lanza error
 
             listarAnimales();
 
@@ -576,14 +576,14 @@ public:
 
             for(int i=0;i<animales.size();i++)
             {
-                if(animales[i]->getID()==idAnimal)
+                if(animales[i]->getID()==idAnimal) 
                 {
                     cout<<adoptante->getNombre()
                         <<" adopto con exito a "
                         <<animales[i]->getNombre()
-                        <<endl;
+                        <<endl; // muestra la adopcion
 
-                    animales.erase(animales.begin()+i);
+                    animales.erase(animales.begin()+i); // borra animal del vector
 
                     cout<<"Animal eliminado correctamente\n";
 
@@ -591,16 +591,16 @@ public:
                 }
             }
 
-            throw runtime_error("Animal no encontrado");
+            throw runtime_error("Animal no encontrado"); // si encuentra el animal que pediste
         }
         catch(const exception &e)
         {
             cout<<e.what()<<endl;
         }
     }
-};
+}; // Maneja errores sin que el programa se rompa, se utiliza manejo de excepciones para controlar errores de forma segura
 
-// ================= MAIN =================
+// MAIN 
 
 int main()
 {
