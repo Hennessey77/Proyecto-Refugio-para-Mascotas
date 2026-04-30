@@ -7,32 +7,32 @@
 
 using namespace std;
 
-// ================= INTERFACES =================
+// INTERFACES 
 
-class Mostrable
+class Mostrable //Cualquier clase que herede de aquí debe poder mostrarse
 {
 public:
-    virtual void mostrar() = 0;
-    virtual ~Mostrable(){}
+    virtual void mostrar() = 0; //función virtual pura, permite polimorfismos
+    virtual ~Mostrable(){} //destructor virtual
 };
 
-class Identificable
+class Identificable //Obliga a que cualquier clase que herede de aquí tenga un ID y pueda devolverlo.
 {
 public:
-    virtual string getID() = 0;
-    virtual ~Identificable(){}
+    virtual string getID() = 0; //funcion virtual pura
+    virtual ~Identificable(){} // destructor virtual
 };
 
-// ================= VALIDACION =================
+// VALIDACION 
 
-bool esNumero(const string &str)
+bool esNumero(const string &str) //Verifica si un texto contiene solo números, evita copiar string
 {
-    if(str.empty()) return false;
+    if(str.empty()) return false; // si esta vacio no es numero
 
-    for(char c : str)
-        if(!isdigit(c)) return false;
+    for(char c : str) //Recorre cada carácter del string
+        if(!isdigit(c)) return false; //Si alguno caracter no es numero es falso
 
-    return true;
+    return true; // si todos son numeros es valido el programa
 }
 
 string pedirID()
@@ -46,11 +46,11 @@ string pedirID()
 
         if(esNumero(id)) return id;
 
-        throw invalid_argument("Error: solo numeros permitidos");
+        throw invalid_argument("Error: solo numeros permitidos"); //excepcion si el ID es invalido
     }
 }
 
-// ================= TEMPLATE =================
+// TEMPLATE // clase generica que guarda objetos en un vector
 
 template<class T>
 class Repositorio
