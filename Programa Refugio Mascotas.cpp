@@ -52,33 +52,33 @@ string pedirID()
 
 // TEMPLATE // clase generica que guarda objetos en un vector
 
-template<class T>
+template<class T> // no repites codigo
 class Repositorio
 {
 private:
-    vector<T> datos;
+    vector<T> datos; // crea vector
 
 public:
 
     void agregar(T obj)
     {
-        datos.push_back(obj);
+        datos.push_back(obj); // agrega un elemento al vector
     }
 
-    vector<T>& obtener()
+    vector<T>& obtener() // pasa por referecia el vector
     {
         return datos;
     }
 
-    bool estaVacio()
+    bool estaVacio() // Verifica si no hay elementos
     {
         return datos.empty();
     }
 };
 
-// ================= PERSONA =================
+// PERSONA 
 
-class Persona : public Mostrable, public Identificable
+class Persona : public Mostrable, public Identificable //herencia multiple, hereda de dos clases
 {
 private:
 
@@ -90,7 +90,7 @@ private:
 
 public:
 
-    Persona(string id,string nombre,string cedula,string telefono,string direccion)
+    Persona(string id,string nombre,string cedula,string telefono,string direccion) //inicializa objeto cuando se crea
     {
         this->id=id;
         this->nombre=nombre;
@@ -99,7 +99,7 @@ public:
         this->direccion=direccion;
     }
 
-    string getID() override
+    string getID() override //devuelve id
     {
         return id;
     }
@@ -109,7 +109,7 @@ public:
         return nombre;
     }
 
-    void mostrar() override
+    void mostrar() override //polimorfismo
     {
         cout<<"ID: "<<id
             <<" | Nombre: "<<nombre
@@ -119,8 +119,8 @@ public:
             <<endl;
     }
     
-    // ===== GETTERS =====
-string getCedula()
+    // GETTERS 
+string getCedula() //Devuelven datos privados, encapsulamiento
 {
     return cedula;
 }
@@ -135,8 +135,8 @@ string getDireccion()
     return direccion;
 }
 
-// ===== SETTERS =====
-void setNombre(string nombre)
+// SETTERS
+void setNombre(string nombre) //metodos para modificar datos
 {
     this->nombre = nombre;
 }
@@ -157,7 +157,7 @@ void setDireccion(string direccion)
 }
 };
 
-// ================= ANIMAL ABSTRACTO =================
+// ANIMAL ABSTRACTO 
 
 class Animal : public Mostrable, public Identificable
 {
